@@ -28,21 +28,3 @@ fun generatorOf(vararg pairs: Pair<String, () -> Any>) =
             FieldGenerator(it.first, it.second)
         }.toList()
 
-
-fun main() {
-    generatorOf(
-            "timeStamp" to {
-                LocalDateTime.now()
-            },
-            "type" to {
-                listOf(ActionType.Call).random()
-            },
-            "performedBy" to {
-                listOf("988957030", "993995179").random()
-            },
-            "performerCell" to {
-                listOf("0001", "0002")
-            }
-
-    )
-}

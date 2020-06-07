@@ -1,7 +1,6 @@
 package com.syriatel.d3m.greenmile
 
 
-import com.syriatel.d3m.greenmile.config.GreenMileConfig
 import com.syriatel.d3m.greenmile.criteria.offNet
 import com.syriatel.d3m.greenmile.criteria.onNet
 import com.syriatel.d3m.greenmile.domain.Action
@@ -24,6 +23,7 @@ import org.apache.kafka.streams.kstream.Consumed
 import org.apache.kafka.streams.kstream.KStream
 import org.apache.kafka.streams.kstream.TimeWindows
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -46,8 +46,7 @@ class Customer360(
 
 
 @Configuration
-
-@EnableConfigurationProperties(GreenMileConfig::class)
+@EnableConfigurationProperties(KafkaProperties::class)
 class StreamsApp {
 
     @Bean(name = ["greenMileTopology"])
@@ -75,9 +74,9 @@ class StreamsApp {
     }
 
     @Bean
-    fun kafkaStreams(streamsBuilder: StreamsBuilder, properties: GreenMileConfig) =
+    fun kafkaStreams(streamsBuilder: StreamsBuilder, properties: KafkaProperties) =
             KafkaStreams(streamsBuilder.build(), Properties().apply {
-                putAll(properties.buildProperties())
+                putAll(properties.buildStreamsProperties())
             }).apply {
                 start()
             }
